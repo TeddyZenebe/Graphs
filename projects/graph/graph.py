@@ -46,10 +46,9 @@ class Graph:
             current_vertex = plan_to_visit.dequeue()
             # if its not been visited
             if current_vertex not in visited_vertices:
-                # print the vertex
-                print(current_vertex)
                 # mark it as visited, (add it to visited_vertices)   
                 visited_vertices.add(current_vertex)
+                print('test tesddy', visited_vertices)
                 # add all unvisited neighbors to the queue
                 for neighbor in self.get_neighbors(current_vertex):
                     if neighbor not in visited_vertices:
@@ -71,10 +70,9 @@ class Graph:
             current_vertex = plan_to_visit.pop()
             # if its not been visited
             if current_vertex not in visited_vertices:
-                # print the vertex
-                print(current_vertex)
                 # mark it as visited, (add it to visited_vertices)   
                 visited_vertices.add(current_vertex)
+                print('test tesddy2', visited_vertices)
                 # add all unvisited neighbors to the stack
                 for neighbor in self.get_neighbors(current_vertex):
                     if neighbor not in visited_vertices:
@@ -118,7 +116,7 @@ class Graph:
                 # make new versions of the current path, with each neighbor added to them
                 for next_vertex in self.get_neighbors(current_vertex):
                     # duplicate the path
-                    new_path = list(current_path) #[A, B]
+                    new_path = list(current_path) #built in used to make copy a list **a =[1, 2, 3]  then b=list(a)--- b will be copy of a=> b=[1, 2, 3]
                     # add the neighbor
                     new_path.append(next_vertex)
                     # add the new path to the queue
