@@ -3,7 +3,18 @@ import random
 class User:
     def __init__(self, name):
         self.name = name
-
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
 class SocialGraph:
     def __init__(self):
         self.last_id = 0
@@ -73,8 +84,24 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        neighbors_to_visite = Queue()
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        neighbors_to_visite.enqueue([user_id])
+        while neighbors_to_visite.size() > 0:
+            #dequeue the first path
+            current_path = neighbors_to_visite.dequeue()
+            #grab the last vertex
+            current_vertex =current_path[-1]
+            if current_vertex not in visited:
+                #when we reach the unvisited vertex, add it to visited dict
+                #but also, add the whole path that leade us here
+                visited[current_vertex] = current_vertex
+                # get all neighbors and add the path + the neighbor to the queue
+                for neighbore in self.friendships[current_vertex]:
+                    path_copy = current_path.copy()
+                    path_copy.append(neighbore)
+                    neighbors_to_visite.enqueue(path_copy)
         return visited
 
 
@@ -83,4 +110,9 @@ if __name__ == '__main__':
     sg.populate_graph(10, 2)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
+    print(f"Users in extended social network: {len(connections) - 1}")
+    total_social_paths = 0
     print(connections)
+    for user_id in connections:
+        total_social_paths += len(connections[user_id])
+    print(f"Avg length of social path: {total_social_paths / len(connections)}")
